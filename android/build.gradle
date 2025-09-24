@@ -1,0 +1,93 @@
+buildscript {
+    ext.kotlin_version = '1.9.0' // or your desired Kotlin version
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:8.0.2" // or your version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
+
+// ✅ 1. Bloc buildscript en premier
+/*buildscript {
+    ext.kotlin_version = '1.8.10' // adapte si besoin
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.google.gms:google-services:4.3.15'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}*/
+
+// ✅ 2. Bloc plugins ensuite
+/*plugins {
+    id "dev.flutter.flutter-gradle-plugin" version '8.5.0' apply false
+}
+
+// ✅ 3. Reste du fichier
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = '../build'
+
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}*/
+
+// build.gradle (racine du projet Android)
+
+// android/build.gradle.kts
+
+/*plugins {
+    id("dev.flutter.flutter-plugin-loader.gradle.plugin") version "1.0.0"
+    id("com.android.application") version "8.2.0" apply false // 🔁 Remplace par la version AGP que tu utilises
+    id("org.jetbrains.kotlin.android") version "1.9.10" apply false // 🔁 Remplace si besoin
+    id("com.google.gms.google-services") version "4.4.0" apply false
+    id("com.google.firebase.crashlytics") version "2.9.9" apply false
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Centraliser les builds dans ../build
+rootProject.buildDir = file("../build")
+subprojects {
+    buildDir = File(rootProject.buildDir, name)
+}
+
+// Clean task
+tasks.register<Delete>("clean") {
+    delete(rootProject.buildDir)
+}*/
+
